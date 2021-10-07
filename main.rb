@@ -27,33 +27,28 @@ end
 
 # Merge sort method
 def merge_sort(arr)
-  # binding.pry
   if arr.size < 2
     return arr
   else
     # sort left half of elements
     x = merge_sort(arr.slice(0, arr.size / 2))
     # sort right half of elements
-    y = merge_sort(arr.slice(arr.size / 2, arr.size / 2))
+    y = merge_sort(arr.slice(arr.size / 2..arr.size))
     # merge sorted halves
     new_arr = []
     while new_arr.size < arr.size
       if x.empty?
-        new_arr.push(y[0])
-        y.shift
+        new_arr.push(y.shift)
       elsif y.empty?
-        new_arr.push(x[0])
-        x.shift
-      elsif x[0] >= y[0]
-        new_arr.push(y[0])
-        y.shift
+        new_arr.push(x.shift)
       else
-        new_arr.push(x[0])
-        x.shift
+        comparison = x[0] <=> y[0]
+        new_arr.push(y.shift) if comparison == 1 || comparison == 0
+        new_arr.push(x.shift) if comparison == -1
       end
     end
     new_arr
   end
 end
 
-p merge_sort([2,3,1,6,5,8,7,4])
+p merge_sort([6, 7, 9, 14, 20, 4, 1, 19, 3])
